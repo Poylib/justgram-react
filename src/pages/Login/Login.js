@@ -1,6 +1,6 @@
 import styles from "./Login.module.scss";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffact } from "react";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 function Login() {
   const [idValue, setIdValue] = useState('');
@@ -62,11 +62,10 @@ function Login() {
             </div>
             <div>
               <button>
-                <img />
                 <span>Facebook으로 로그인</span>
               </button>
             </div>
-            <Link to="https://www.instagram.com/accounts/password/reset/">
+            <Link to="/findpw">
               비밀번호를 잊으셨나요?
             </Link>
           </form>
