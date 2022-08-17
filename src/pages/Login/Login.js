@@ -5,28 +5,23 @@ import { useState } from "react";
 function Login() {
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
-  const [disabled, setDisabled] = useState(true);
-  const [opacity, setOpasity] = useState(0.5);
+  const [isValid, setIsValid] = useState(false);
 
-  const idInput = (e) => {
-    setIdValue(e.target.value);
-    changeOpasity();
-    changeDisabled();
+  const handleIdInput = (e) => {
+    let id = e.target.value
+    setIdValue(id);
+    id.includes("@") && pwValue.length >= 5
+      ? setIsValid(true)
+      : setIsValid(false)
   };
-  const pwInput = (e) => {
-    setPwValue(e.target.value);
-    changeOpasity();
-    changeDisabled();
+  const handlePwInput = (e) => {
+    let pw = e.target.value
+    setPwValue(pw);
+    idValue.includes("@") && pw.length >= 5
+      ? setIsValid(true)
+      : setIsValid(false);
   };
-  const changeOpasity = () => {
-    if (idValue.includes("@") && pwValue.length >= 5) setOpasity(1)
-    else setOpasity(0.5)
-  }
 
-  const changeDisabled = () => {   
-    if (idValue.includes("@") && pwValue.length >= 5) setDisabled(false) 
-    else setDisabled(true) 
-  }
   return (
     <div className={styles.wrap}>
       <div className={styles.main}>
@@ -39,18 +34,18 @@ function Login() {
               <span>전화번호, 사용자 이름 또는 이메일</span>
               <input
                 type="text"
-                onChange={idInput}
+                onChange={handleIdInput}
               />
             </div>
             <div className={styles.inputBox}>
               <span>비밀번호</span>
-              <input type="password" onChange={pwInput} />
+              <input type="password" onChange={handlePwInput} />
             </div>
             <div>
               <button
-                disabled={disabled}
+                disabled={isValid ? true : false}
                 style={{
-                  opacity: opacity,
+                  opacity: isValid ? 1 : 0.5
                 }}
               >
                 로그인

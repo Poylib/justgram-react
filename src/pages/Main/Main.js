@@ -8,6 +8,8 @@ function Main() {
       <Nav />
       <div className={styles.content}>
         <Feed />
+        <Feed />
+        <Feed />
       </div>
     </>
   );
