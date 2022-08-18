@@ -9,25 +9,25 @@ function Feed() {
   const [id, setId] = useState(0);
   const value = useRef();
 
-  const post = e => {
+  const onSubmit = e => {
     e.preventDefault();
-    if (!isValid && e.target.form[0].value.length>0) {
+    if (value.current.value.length > 0) {
       setId(id + 1);
       let newComment = {
         id: id,
         content: value.current.value,
       };
       setCommentArr([...commmentArr, newComment]);
+      value.current.value = "";
+      setIsValid(true);
     }
-    e.target.form[0].value = "";
-    setIsValid(false)
   }
 
-  const onChange = (e) => {
-    e.target.value.length > 0
+  const onChange = () => {
+    value.current.value.length > 0
       ? setIsValid(false)
       : setIsValid(true)
-  }
+  };
 
   return (
     <article>
@@ -87,16 +87,17 @@ function Feed() {
         <span>28분 전</span>
       </div>
       <div className={styles.feedWrite}>
-        <form>
+        <form
+        onSubmit={onSubmit}
+        >
           <input
             ref={value}
             onChange={onChange}
             placeholder="댓글 달기..."
           />
           <button
-            onClick={post}
             style={{
-              opacity: isValid ? 0.1 : 1
+              opacity: isValid ? 0.5 : 1
             }}
           >
             게시
