@@ -1,6 +1,5 @@
-import styles from "./Nav.module.scss";
+import "./Nav.module.scss";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 function Nav() {
   return (
@@ -8,19 +7,19 @@ function Nav() {
       <Link to={"/main"}>Justgram</Link>
       <input placeholder="검색" />
       <div>
-        <a>
+        <a href="{() => false}">
           <img
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/explore.png"
             alt="1"
           />
         </a>
-        <a>
+        <a href="{() => false}">
           <img
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/heart.png"
             alt="2"
           />
         </a>
-        <a>
+        <a href="{() => false}">
           <img
             src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/bearu/profile.png"
             alt="3"

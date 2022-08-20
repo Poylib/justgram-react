@@ -2,52 +2,64 @@ import styles from "./Feed.module.scss";
 import { useState, useRef } from "react";
 import Comments from "./Comments";
 
-function Feed() {
-  const [userName] = useState('codelike');
+function Feed({
+  username,
+  feedcontent,
+  commentlist,
+  feedpicture,
+  like,
+  writerprofile,
+}) {
+  const [userName] = useState("loginUser"); // 로그인 한 아이디
   const [commmentArr, setCommentArr] = useState([]);
   const [isValid, setIsValid] = useState(true);
   const [id, setId] = useState(0);
-  const value = useRef();
+  const [feedHeart, setFeedHeart] = useState("image/heart.png");
+  const ref = useRef();
 
-  const onSubmit = e => {
+
+  console.log(commentlist)
+
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (value.current.value.length > 0) {
+    if (ref.current.value.length > 0) {
       setId(id + 1);
       let newComment = {
         id: id,
-        content: value.current.value,
+        content: ref.current.value,
       };
       setCommentArr([...commmentArr, newComment]);
-      value.current.value = "";
+      ref.current.value = "";
       setIsValid(true);
     }
-  }
-
-  const onChange = () => {
-    value.current.value.length > 0
-      ? setIsValid(false)
-      : setIsValid(true)
   };
 
+  const onChange = () => {
+    ref.current.value.length > 0 ? setIsValid(false) : setIsValid(true);
+  };
+
+  const heartClick = () => {
+    if (feedHeart === "image/heart.png") setFeedHeart("image/fullheart.png");
+    else setFeedHeart("image/heart.png");
+  }
   return (
     <article>
       <div className={styles.feedHead}>
         <div className={styles.profile}>
-          <img src="image/Profile.jpg" alt="프로필" />
-          <a href="{() => false}">poy.lib</a>
+          <img src={writerprofile} alt="프로필" />
+          <a href="{() => false}">{username}</a>
         </div>
         <div>
           <img src="image/dots.png" alt="더보기" />
         </div>
       </div>
-
       <div className={styles.feedBody}>
-        <img src="image/feed1.jpg" alt="피드 사진" />
+        <img src={feedpicture} alt="피드 사진" />
       </div>
       <div className={styles.feedMenu}>
         <div>
-          <button>
-            <img src="image/heart.png" alt="좋아요" />
+          <button onClick={heartClick}>
+            <img src={feedHeart} alt="좋아요" />
           </button>
           <button>
             <img src="image/chat.png" style={{ width: "33px" }} alt="댓글" />
@@ -63,41 +75,41 @@ function Feed() {
         </div>
       </div>
 
+      {/* ////////////// comment //////////// */}
+
       <div className={styles.feedComment}>
         <div>
-          <span>좋아요 28개</span>
+          <span style={{ fontWeight: "bold" }}>{`좋아요 ${like} 개`}</span>
         </div>
         <div>
-          <a href="{() => false}">poy.lib</a>
-          <span>게시글 내용</span>
+          <a href="{() => false}">{username}</a>
+          <span>{feedcontent}</span>
         </div>
-        <div>
-          <div>
-            <a href="{() => false}">댓글 작성자</a>
-            <span>댓글 내용</span>
+
+        {commentlist.map((props) => (
+          <div key={props.id}>
+            <a href="{() => false}">{props.name}</a>
+            <span>{props.comment}</span>
           </div>
-          {commmentArr.map((e) => (
+        ))}
+
+        <div>
+          {commmentArr.map((props) => (
             <Comments
-              key={e.id}
+              key={props.id}
               userId={userName}
-              userComment={e.content}
+              userComment={props.content}
             />
           ))}
         </div>
         <span>28분 전</span>
       </div>
       <div className={styles.feedWrite}>
-        <form
-        onSubmit={onSubmit}
-        >
-          <input
-            ref={value}
-            onChange={onChange}
-            placeholder="댓글 달기..."
-          />
+        <form onSubmit={onSubmit}>
+          <input ref={ref} onChange={onChange} placeholder="댓글 달기..." />
           <button
             style={{
-              opacity: isValid ? 0.5 : 1
+              opacity: isValid ? 0.5 : 1,
             }}
           >
             게시
