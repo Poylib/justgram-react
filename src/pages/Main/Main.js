@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Nav from "./Nav";
 import Feed from "./Feed"
@@ -7,10 +7,7 @@ import styles from "./Main.module.scss"
 
 function Main() {
   const [feeds, setFeeds] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [error, setError] = useState(false);
-  // const [test, setTest] = useState([]);
-
+  const [userName] = useState("LoginUser");
   useEffect(() => {
     try {
       axios.get("/feedData.json").then((res) => setFeeds(res.data));
@@ -19,43 +16,33 @@ function Main() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     setLoading(true);
-  //     axios.get("https://jsonplaceholder.typicode.com/users")
-  //          .then(res => setTest(res.data));
-  //   } catch (e) {
-  //     alert('error')
-  //   }
-  //   setLoading(false);
-  // }, [])
-
-  // console.log(feeds)
-  // console.log(test)
-
   return (
     <>
       <Nav />
-      <div className={styles.content}>
-        {feeds.map((props) => (
-          <Feed
-            key={props.id}
-            username={props.username}
-            feedcontent={props.feedcontent}
-            commentlist={props.commentlist}
-            feedpicture={props.feedpicture}
-            like={props.like}
-            writerprofile={props.writerprofile}
-          />
-        ))}
-        {/* {
-          test.map((props) => (
-          <Feed
-            key={props.id}
-            username={props.username}
-            feedcontent={props.company}
-          />
-        ))} */}
+      <div className={styles.wrap}>
+        <div className={styles.content}>
+          {feeds.map((props) => (
+            <Feed
+              key={props.id}
+              loginuser={userName}
+              username={props.username}
+              feedcontent={props.feedcontent}
+              commentlist={props.commentlist}
+              feedpicture={props.feedpicture}
+              like={props.like}
+              writerprofile={props.writerprofile}
+            />
+          ))}
+        </div>
+        <div className={styles.loginProfile}>
+          <div>
+            <img src="image/loginprofile.jpg" />
+          </div>
+          <div>
+            <span>{userName}</span>
+            <span>poy</span>
+          </div>
+        </div>
       </div>
     </>
   );

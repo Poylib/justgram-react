@@ -4,29 +4,29 @@ import Comments from "./Comments";
 
 function Feed({
   username,
+  loginuser,
   feedcontent,
   commentlist,
   feedpicture,
   like,
   writerprofile,
 }) {
-  const [userName] = useState("loginUser"); // 로그인 한 아이디
-  const [commmentArr, setCommentArr] = useState([]);
+   // 로그인 한 아이디
+  const [commmentArr, setCommentArr] = useState(commentlist);
   const [isValid, setIsValid] = useState(true);
-  const [id, setId] = useState(0);
+  const [id, setId] = useState(commentlist.length+1);
   const [feedHeart, setFeedHeart] = useState("image/heart.png");
   const ref = useRef();
-
-
-  console.log(commentlist)
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (ref.current.value.length > 0) {
-      setId(id + 1);
+      setId(id+1);
       let newComment = {
         id: id,
-        content: ref.current.value,
+        name: loginuser,
+        comment: ref.current.value,
       };
       setCommentArr([...commmentArr, newComment]);
       ref.current.value = "";
@@ -86,19 +86,20 @@ function Feed({
           <span>{feedcontent}</span>
         </div>
 
-        {commentlist.map((props) => (
-          <div key={props.id}>
-            <a href="{() => false}">{props.name}</a>
-            <span>{props.comment}</span>
-          </div>
-        ))}
+        {/* {cmtArr.map((props) => (
+          <Comments
+            key={props.id}
+            userId={props.name}
+            userComment={props.comment}
+          />
+        ))} */}
 
         <div>
           {commmentArr.map((props) => (
             <Comments
               key={props.id}
-              userId={userName}
-              userComment={props.content}
+              userId={props.name}
+              userComment={props.comment}
             />
           ))}
         </div>
