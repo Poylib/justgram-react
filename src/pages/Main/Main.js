@@ -10,7 +10,7 @@ function Main() {
   const [userName] = useState("LoginUser");
   useEffect(() => {
     try {
-      axios.get("/feedData.json").then((res) => setFeeds(res.data));
+      axios.get("http://localhost:3000/feedData.json").then((res) => setFeeds(res.data));
     } catch {
       alert("ERROR");
     }

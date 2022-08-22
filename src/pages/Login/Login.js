@@ -1,8 +1,10 @@
 import styles from "./Login.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+// import axios from "axios";
 
 function Login() {
+  const navigate = useNavigate();
   const [idValue, setIdValue] = useState('');
   const [pwValue, setPwValue] = useState('');
   const [isValid, setIsValid] = useState(false);
@@ -22,6 +24,10 @@ function Login() {
       : setIsValid(false);
   };
 
+  const onSubmit = (e) => {
+    navigate('/main')
+  };
+
   return (
     <div className={styles.wrap}>
       <div className={styles.main}>
@@ -29,13 +35,12 @@ function Login() {
           <span>Justgram</span>
         </div>
         <div className={styles.formBox}>
-          <form>
+          <form
+          onSubmit={onSubmit}
+          >
             <div className={styles.inputBox}>
               <span>전화번호, 사용자 이름 또는 이메일</span>
-              <input
-                type="text"
-                onChange={handleIdInput}
-              />
+              <input type="text" onChange={handleIdInput} />
             </div>
             <div className={styles.inputBox}>
               <span>비밀번호</span>
@@ -43,9 +48,9 @@ function Login() {
             </div>
             <div>
               <button
-                disabled={isValid ? true : false}
+                disabled={isValid ? false : true}
                 style={{
-                  opacity: isValid ? 1 : 0.5
+                  opacity: isValid ? 1 : 0.5,
                 }}
               >
                 로그인
@@ -55,15 +60,13 @@ function Login() {
             <div>
               <div className={styles.line}>또는</div>
             </div>
-            <div>
-              <button>
-                <span>Facebook으로 로그인</span>
-              </button>
-            </div>
-            <Link to="/findpw">
-              비밀번호를 잊으셨나요?
-            </Link>
           </form>
+          <div>
+            <button>
+              <span>Facebook으로 로그인</span>
+            </button>
+          </div>
+          <Link to="/findpw">비밀번호를 잊으셨나요?</Link>
         </div>
       </div>
     </div>
